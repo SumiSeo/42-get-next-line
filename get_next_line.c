@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 100
 
 char	*get_next_line(int fd)
 {
@@ -28,10 +28,14 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	int	fh;
+	int		fh;
+	FILE	*fho;
 
-	fh = open("poem2.txt", O_RDWR);
-	printf("fh[ %d]", fh);
+	fh = open("poem.txt", O_RDWR);
+	printf("@@@THE ORIGINAL\n");
+	// printf("fh[ %d]", fh);
+	fho = fopen("poem.txt", "r");
+	printf("@@@@@@@@TMINE\n");
 	get_next_line(fh);
 	return (0);
 }

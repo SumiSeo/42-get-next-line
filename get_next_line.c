@@ -12,17 +12,45 @@
 
 #include "get_next_line.h"
 
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 10000
 
 char	*get_next_line(int fd)
 {
 	char	buffer[BUFFER_SIZE];
-	int		bytesRead;
+	int		count;
+	int		fb;
+	char	r_buffer[BUFFER_SIZE];
+	int		nb_read;
 
-	printf("fd : %d", fd);
-	bytesRead = read(fd, buffer, BUFFER_SIZE);
-	printf("File contents : %d\n", bytesRead);
-	printf("File contents %s\n", buffer);
+	fb = 1;
+	count = 0;
+	nb_read = -1;
+	// printf("fd : %d\n", fd);
+	if (fd == -1)
+		return ("test");
+	// printf("File contents : %s\n", buffer);
+	while ((nb_read = read(fd, buffer, fb)) > 0)
+	{
+		if (buffer[0] == '\n' || buffer[0] == '\r')
+		{
+			printf("Looking for enter key : [%c]\n", buffer[0]);
+		}
+		buffer[nb_read] = '\0';
+		r_buffer[count] = buffer[0];
+		// printf("** NB Read : %d", nb_read);
+		// If buffer size is small,
+		// it does not read everythiing so I have to control this.
+		// If it is smaller  ->
+		// But how to check  it ends of the line ?
+		// If I find enter key ? in the file
+		count++;
+	}
+	printf("**Count : %d and Buffer : %s\n", count, r_buffer);
+	if (nb_read == -1)
+	{
+		printf("READ ERROR\n");
+		return ("test");
+	}
 	return ("test");
 }
 
@@ -32,10 +60,8 @@ int	main(void)
 	FILE	*fho;
 
 	fh = open("poem.txt", O_RDWR);
-	printf("@@@THE ORIGINAL\n");
 	// printf("fh[ %d]", fh);
 	fho = fopen("poem.txt", "r");
-	printf("@@@@@@@@TMINE\n");
 	get_next_line(fh);
 	return (0);
 }

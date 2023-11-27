@@ -12,45 +12,14 @@
 
 #include "get_next_line.h"
 
-#define BUFFER_SIZE 10000
+#define BUFFER_SIZE 5
 
 char	*get_next_line(int fd)
 {
-	char	buffer[BUFFER_SIZE];
-	int		count;
-	int		fb;
-	char	r_buffer[BUFFER_SIZE];
-	int		nb_read;
+	size_t	count;
 
-	fb = 1;
-	count = 0;
-	nb_read = -1;
-	// printf("fd : %d\n", fd);
-	if (fd == -1)
-		return ("test");
-	// printf("File contents : %s\n", buffer);
-	while ((nb_read = read(fd, buffer, fb)) > 0)
-	{
-		if (buffer[0] == '\n' || buffer[0] == '\r')
-		{
-			printf("Looking for enter key : [%c]\n", buffer[0]);
-		}
-		buffer[nb_read] = '\0';
-		r_buffer[count] = buffer[0];
-		// printf("** NB Read : %d", nb_read);
-		// If buffer size is small,
-		// it does not read everythiing so I have to control this.
-		// If it is smaller  ->
-		// But how to check  it ends of the line ?
-		// If I find enter key ? in the file
-		count++;
-	}
-	printf("**Count : %d and Buffer : %s\n", count, r_buffer);
-	if (nb_read == -1)
-	{
-		printf("READ ERROR\n");
-		return ("test");
-	}
+	count = get_next_line_utils(fd, BUFFER_SIZE);
+	printf("Total count %zu\n", count);
 	return ("test");
 }
 

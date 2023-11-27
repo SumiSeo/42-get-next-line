@@ -20,5 +20,6 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
+size_t	get_next_line_utils(int fd, int size);
 
 #endif

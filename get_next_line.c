@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-void	polish_list(t_list **list)
+static void	polish_list(t_list **list)
 {
 	t_list	*last_node;
 	t_list	*clean_node;
@@ -37,12 +37,12 @@ void	polish_list(t_list **list)
 	dealloc(list, clean_node, buf);
 }
 
-char	*get_line(t_list *list)
+static char	*get_line(t_list *list)
 {
 	int		str_len;
 	char	*next_str;
 
-	if (NULL == list)
+	if (list == NULL)
 		return (NULL);
 	str_len = len_to_newline(list);
 	next_str = malloc(str_len + 1);
@@ -56,7 +56,7 @@ char	*get_line(t_list *list)
  * append one node
  * to the end of list
  */
-void	append(t_list **list, char *buf)
+static void	append(t_list **list, char *buf)
 {
 	t_list	*new_node;
 	t_list	*last_node;
@@ -73,7 +73,7 @@ void	append(t_list **list, char *buf)
 	new_node->next = NULL;
 }
 
-void	create_list(t_list **list, int fd)
+static void	create_list(t_list **list, int fd)
 {
 	int		char_read;
 	char	*buf;
@@ -94,11 +94,6 @@ void	create_list(t_list **list, int fd)
 	}
 }
 
-/*
- * Mother function
- * 	~Took a fildes
- * 	~Gives back the next_string
- */
 char	*get_next_line(int fd)
 {
 	static t_list	*list = NULL;

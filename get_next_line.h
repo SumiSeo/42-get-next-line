@@ -30,14 +30,14 @@ typedef struct s_list
 # include <unistd.h>
 
 char				*get_next_line(int fd);
-int					len_to_newline(t_list *list);
-void				dealloc(t_list **list, t_list *clean_node, char *buf);
-void				copy_str(t_list *list, char *str);
-t_list				*find_last_node(t_list *list);
-int					found_newline(t_list *list);
-char				*get_line(t_list *list);
-void				append(t_list **list, char *buf);
-void				create_list(t_list **list, int fd);
-char				*get_next_line(int fd);
+static int			len_to_newline(t_list *list);
+static void			dealloc(t_list **list, t_list *clean_node, char *buf);
+static void			copy_str(t_list *list, char *str);
+static t_list		*find_last_node(t_list *list);
+static int			found_newline(t_list *list);
+static char			*get_line(t_list *list);
+static void			append(t_list **list, char *buf);
+static void			create_list(t_list **list, int fd);
+static char			*get_next_line(int fd);
 
 #endif

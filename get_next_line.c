@@ -9,10 +9,9 @@
 /*   Updated: 2023/11/25 15:20:33 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "get_next_line.h"
 
-static void	polish_list(t_list **list)
+void	polish_list(t_list **list)
 {
 	t_list	*last_node;
 	t_list	*clean_node;
@@ -37,12 +36,12 @@ static void	polish_list(t_list **list)
 	dealloc(list, clean_node, buf);
 }
 
-static char	*get_line(t_list *list)
+char	*get_line(t_list *list)
 {
 	int		str_len;
 	char	*next_str;
 
-	if (list == NULL)
+	if (NULL == list)
 		return (NULL);
 	str_len = len_to_newline(list);
 	next_str = malloc(str_len + 1);
@@ -52,11 +51,7 @@ static char	*get_line(t_list *list)
 	return (next_str);
 }
 
-/*
- * append one node
- * to the end of list
- */
-static void	append(t_list **list, char *buf)
+void	append(t_list **list, char *buf)
 {
 	t_list	*new_node;
 	t_list	*last_node;
@@ -73,7 +68,7 @@ static void	append(t_list **list, char *buf)
 	new_node->next = NULL;
 }
 
-static void	create_list(t_list **list, int fd)
+void	create_list(t_list **list, int fd)
 {
 	int		char_read;
 	char	*buf;
@@ -108,15 +103,3 @@ char	*get_next_line(int fd)
 	polish_list(&list);
 	return (next_line);
 }
-
-/*int	main(void)
-{
-	int		fh;
-	FILE	*fho;
-
-	fh = open("poem.txt", O_RDWR);
-	// printf("fh[ %d]", fh);
-	fho = fopen("poem.txt", "r");
-	printf("TEST %s", get_next_line(fh));
-	return (0);
-}*/

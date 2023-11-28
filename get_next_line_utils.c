@@ -32,7 +32,7 @@ int	found_newline(t_list *list)
 	return (0);
 }
 
-static t_list	*find_last_node(t_list *list)
+t_list	*find_last_node(t_list *list)
 {
 	if (NULL == list)
 		return (NULL);
@@ -41,7 +41,7 @@ static t_list	*find_last_node(t_list *list)
 	return (list);
 }
 
-static void	copy_str(t_list *list, char *str)
+void	copy_str(t_list *list, char *str)
 {
 	int	i;
 	int	k;
@@ -67,7 +67,7 @@ static void	copy_str(t_list *list, char *str)
 	str[k] = '\0';
 }
 
-static int	len_to_newline(t_list *list)
+int	len_to_newline(t_list *list)
 {
 	int	i;
 	int	len;
@@ -93,9 +93,9 @@ static int	len_to_newline(t_list *list)
 	return (len);
 }
 
-static void	dealloc(t_list **list, t_list *clean_node, char *buf)
+void	dealloc(t_list **list, t_list *clean_node, char *buf)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	if (NULL == *list)
 		return ;

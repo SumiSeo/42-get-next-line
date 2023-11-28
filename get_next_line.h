@@ -16,6 +16,11 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
+# include <fcntl.h>
+# include <stddef.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_list
 {
@@ -23,21 +28,14 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-# include <fcntl.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
+int					found_newline(t_list *list);
+t_list				*find_last_node(t_list *list);
+char				*get_line(t_list *list);
+void				copy_str(t_list *list, char *str);
+int					len_to_newline(t_list *list);
+void				polish_list(t_list **list);
 char				*get_next_line(int fd);
-static int			len_to_newline(t_list *list);
-static void			dealloc(t_list **list, t_list *clean_node, char *buf);
-static void			copy_str(t_list *list, char *str);
-static t_list		*find_last_node(t_list *list);
-static int			found_newline(t_list *list);
-static char			*get_line(t_list *list);
-static void			append(t_list **list, char *buf);
-static void			create_list(t_list **list, int fd);
-static char			*get_next_line(int fd);
+void				dealloc(t_list **list, t_list *clean_node, char *buf);
+void				create_list(t_list **list, int fd);
 
 #endif

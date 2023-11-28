@@ -5,113 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sumseo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/25 15:20:49 by sumseo            #+#    #+#             */
-/*   Updated: 2023/11/25 15:21:18 by sumseo           ###   ########.fr       */
+/*   Created: 2023/11/28 14:16:18 by sumseo            #+#    #+#             */
+/*   Updated: 2023/11/28 14:16:38 by sumseo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	found_newline(t_list *list)
-{
-	int	i;
-
-	if (NULL == list)
-		return (0);
-	while (list)
-	{
-		i = 0;
-		while (list->str_buf[i] && i < BUFFER_SIZE)
-		{
-			if (list->str_buf[i] == '\n')
-				return (1);
-			++i;
-		}
-		list = list->next;
-	}
-	return (0);
-}
-
-t_list	*find_last_node(t_list *list)
-{
-	if (NULL == list)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
-}
-
-void	copy_str(t_list *list, char *str)
-{
-	int	i;
-	int	k;
-
-	if (NULL == list)
-		return ;
-	k = 0;
-	while (list)
-	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				str[k++] = '\n';
-				str[k] = '\0';
-				return ;
-			}
-			str[k++] = list->str_buf[i++];
-		}
-		list = list->next;
-	}
-	str[k] = '\0';
-}
-
-int	len_to_newline(t_list *list)
-{
-	int	i;
-	int	len;
-
-	if (NULL == list)
-		return (0);
-	len = 0;
-	while (list)
-	{
-		i = 0;
-		while (list->str_buf[i])
-		{
-			if (list->str_buf[i] == '\n')
-			{
-				++len;
-				return (len);
-			}
-			++i;
-			++len;
-		}
-		list = list->next;
-	}
-	return (len);
-}
-
-void	dealloc(t_list **list, t_list *clean_node, char *buf)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*tmp;
 
-	if (NULL == *list)
+	if (*lst == NULL)
+	{
+		*lst = new;
 		return ;
-	while (*list)
-	{
-		tmp = (*list)->next;
-		free((*list)->str_buf);
-		free(*list);
-		*list = tmp;
 	}
-	*list = NULL;
-	if (clean_node->str_buf[0])
-		*list = clean_node;
-	else
+	tmp = *lst;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+t_list	*ft_lstlast(t_list *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+t_list	*ft_lstnew(void *str)
+{
+	t_list	*head;
+
+	head = (t_list *)malloc(sizeof(*head));
+	if (!head)
+		return (NULL);
+	head->str_buf = str;
+	head->next = NULL;
+	return (head);
+}
+int	ft_lstsize(t_list *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst != NULL)
 	{
-		free(buf);
-		free(clean_node);
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
+void	ft_lstiter(t_list *lst, void (*f)(char *))
+{
+	if (lst == NULL || f == NULL)
+		return ;
+	while (lst != NULL)
+	{
+		f(lst->str_buf);
+		lst = lst->next;
 	}
 }

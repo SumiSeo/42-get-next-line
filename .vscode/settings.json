@@ -5,6 +5,7 @@
         "stddef.h": "c",
         "get_next_line.h": "c",
         "string_view": "c",
-        "*.tcc": "c"
+        "*.tcc": "c",
+        "algorithm": "c"
     }
 }

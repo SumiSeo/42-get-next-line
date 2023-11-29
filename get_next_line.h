@@ -23,4 +23,6 @@
 # include <unistd.h>
 
 size_t	ft_strlen(const char *s);
+char	*get_next_line(int fd);
+char	*create_first_line(char *str, int fd);
 #endif

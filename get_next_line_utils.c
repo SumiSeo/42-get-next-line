@@ -12,61 +12,13 @@
 
 #include "get_next_line.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+size_t	ft_strlen(const char *s)
 {
-	t_list	*tmp;
+	size_t length;
 
-	if (*lst == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	tmp = *lst;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	tmp->next = new;
-}
+	length = 0;
+	while (s[length] != 0)
+		length++;
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-t_list	*ft_lstnew(void *str)
-{
-	t_list	*head;
-
-	head = (t_list *)malloc(sizeof(*head));
-	if (!head)
-		return (NULL);
-	head->str_buf = str;
-	head->next = NULL;
-	return (head);
-}
-int	ft_lstsize(t_list *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst != NULL)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);
-}
-
-void	ft_lstiter(t_list *lst, void (*f)(char *))
-{
-	if (lst == NULL || f == NULL)
-		return ;
-	while (lst != NULL)
-	{
-		f(lst->str_buf);
-		lst = lst->next;
-	}
+	return (length);
 }

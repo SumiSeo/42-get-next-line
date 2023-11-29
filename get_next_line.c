@@ -44,32 +44,30 @@
 // 	return ("Test");
 // }
 
-char	*create_str(char *str, int fd)
+char	*create_first_line(char *str, int fd)
 {
 	char	buf[1];
 	int		read_size;
 	int		count;
+	size_t	len;
 
-	count = 1;
-	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	count = 0;
+	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 2);
 	if (!str)
-		free(str);
+		return (NULL);
 	read_size = read(fd, buf, 1);
-	str[0] = *buf;
 	while (read_size > 0)
 	{
-		read_size = read(fd, buf, 1);
 		if (*buf == '\n')
-		{
 			break ;
-		}
-		printf("Read string [%s]\n", buf);
 		str[count] = *buf;
 		count++;
+		read_size = read(fd, buf, 1);
 	}
-	printf("Original string [%s]\n", str);
-	// ft_lstiter(buf, find_new_line);
-	return ("Test");
+	len = ft_strlen(str);
+	str[len] = '\0';
+	str[len + 1] = '\n';
+	return (str);
 }
 
 char	*get_next_line(int fd)
@@ -77,22 +75,20 @@ char	*get_next_line(int fd)
 	static char	*str = NULL;
 	char		*next_line;
 
-	// static t_list	*list = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next_line, 0) < 0)
 		return (NULL);
-	// create_list(list, fd);
-	create_str(str, fd);
-	// if (list == NULL)
-	// 	return (NULL);
-	// next_line = get_line(list);
-	// polish_list(&list);
-	// return (next_line);
-	return ("test");
+	return (create_first_line(str, fd));
 }
+
 int	main(void)
 {
 	int fd;
+	int i = 0;
 
 	fd = open("poem.txt", O_RDONLY);
-	printf("Final [%s]\n", get_next_line(fd));
+	while (i < 3)
+	{
+		printf("Final [%s]\n", get_next_line(fd));
+		i++;
+	}
 }

@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
 # endif
 # include <fcntl.h>
 # include <stddef.h>
@@ -33,5 +33,5 @@ void				ft_lstadd_back(t_list **lst, t_list *new);
 t_list				*ft_lstlast(t_list *lst);
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
-void				ft_lstiter(t_list *lst, int (*f)(void *));
+// void				ft_lstiter(t_list *lst, int (*f)(void *));
 #endif

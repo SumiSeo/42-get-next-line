@@ -29,20 +29,22 @@ char	*obtain_remaining(char *bassin_buffer)
 
 char	*extract_line(char *bassin_buffer)
 {
-	char	*temp;
 	int		i;
-	int		len;
+	char	*temp;
 
 	i = 0;
-	len = ft_strlen(bassin_buffer);
-	temp = ft_calloc(len, sizeof(char));
+	while (bassin_buffer[i] != '\0')
+		i++;
+	temp = ft_calloc(i + 1, sizeof(char));
 	if (!temp)
 		return (NULL);
-	while (bassin_buffer[i] != '\n')
+	i = 0;
+	while (bassin_buffer[i] != '\0')
 	{
 		temp[i] = bassin_buffer[i];
 		i++;
 	}
+	temp[i] = '\0';
 	return (temp);
 }
 char	*append_buffer(char *bassin_buffer, char *read_buffer)
@@ -83,7 +85,7 @@ char	*get_next_line(int fd)
 	static char	*bassin_buffer;
 	char		*line;
 
-	if (fd < 0 || read(fd, NULL, 0) < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || read(fd, &line, 0) < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!bassin_buffer)
 		bassin_buffer = ft_calloc(1, sizeof(char));
@@ -92,21 +94,31 @@ char	*get_next_line(int fd)
 	if (!bassin_buffer)
 		return (free(bassin_buffer), NULL);
 	line = extract_line(bassin_buffer);
+	if (line && line[0] == '\0')
+	{
+		free(line);
+		free(bassin_buffer);
+		bassin_buffer = NULL;
+		return (NULL);
+	}
 	bassin_buffer = obtain_remaining(bassin_buffer);
 	return (line);
 }
 
-int	main(void)
-{
-	int	fd;
-	int	i;
+// int	main(void)
+// {
+// 	int		fd;
+// 	int		i;
+// 	char	*s;
 
-	i = 0;
-	fd = open("poem.txt", O_RDONLY);
-	while (i < 8)
-	{
-		printf("Final [%s]\n", get_next_line(fd));
-		i++;
-	}
-	close(fd);
-}
+// 	i = 0;
+// 	fd = open("poem.txt", O_RDONLY);
+// 	while (i < 10)
+// 	{
+// 		s = get_next_line(fd);
+// 		printf("Final [%s]\n", s);
+// 		free(s);
+// 		i++;
+// 	}
+// 	close(fd);
+// }

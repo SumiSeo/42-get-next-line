@@ -11,6 +11,27 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+	size_t	total_size;
+	size_t	i;
+
+	i = 0;
+	total_size = count * size;
+	if (count != 0 && total_size / count != size)
+		return (NULL);
+	ptr = malloc(total_size);
+	if (!ptr)
+		return (NULL);
+	while (i < total_size)
+	{
+		*((char *)ptr + i) = 0;
+		i++;
+	}
+	return (ptr);
+}
+
 char	*obtain_remaining(char *bassin_buffer)
 {
 	char	*temp;
@@ -33,28 +54,23 @@ char	*extract_line(char *bassin_buffer)
 	char	*temp;
 
 	i = 0;
-	while (bassin_buffer[i] != '\0')
+	while (bassin_buffer[i] && bassin_buffer[i] != '\n')
 		i++;
-	temp = ft_calloc(i + 1, sizeof(char));
+	temp = ft_calloc(i + 2, sizeof(char));
 	if (!temp)
 		return (NULL);
 	i = 0;
-	while (bassin_buffer[i] != '\0')
+	while (bassin_buffer[i] && bassin_buffer[i] != '\n')
 	{
 		temp[i] = bassin_buffer[i];
 		i++;
 	}
-	temp[i] = '\0';
+	if (bassin_buffer[i] && bassin_buffer[i] == '\n')
+		temp[i] = bassin_buffer[i];
+	temp[++i] = '\0';
 	return (temp);
 }
-char	*append_buffer(char *bassin_buffer, char *read_buffer)
-{
-	char	*temp;
 
-	temp = ft_strjoin(bassin_buffer, read_buffer);
-	free(bassin_buffer);
-	return (temp);
-}
 char	*read_line(char *bassin_buffer, int fd)
 {
 	int		bytes_read;
@@ -73,13 +89,14 @@ char	*read_line(char *bassin_buffer, int fd)
 			return (NULL);
 		}
 		cup_buffer[bytes_read] = '\0';
-		bassin_buffer = append_buffer(bassin_buffer, cup_buffer);
+		bassin_buffer = ft_strjoin(bassin_buffer, cup_buffer);
 		if (ft_strchr(bassin_buffer, '\n'))
 			break ;
 	}
 	free(cup_buffer);
 	return (bassin_buffer);
 }
+
 char	*get_next_line(int fd)
 {
 	static char	*bassin_buffer;
@@ -92,7 +109,7 @@ char	*get_next_line(int fd)
 	if (!ft_strchr(bassin_buffer, '\n'))
 		bassin_buffer = read_line(bassin_buffer, fd);
 	if (!bassin_buffer)
-		return (free(bassin_buffer), NULL);
+		return (NULL);
 	line = extract_line(bassin_buffer);
 	if (line && line[0] == '\0')
 	{
@@ -112,13 +129,14 @@ char	*get_next_line(int fd)
 // 	char	*s;
 
 // 	i = 0;
-// 	fd = open("poem.txt", O_RDONLY);
-// 	while (i < 10)
+// 	fd = open("poem3.txt", O_RDONLY);
+// 	s = get_next_line(fd);
+// 	while (s)
 // 	{
-// 		s = get_next_line(fd);
 // 		printf("Final [%s]\n", s);
 // 		free(s);
-// 		i++;
+// 		s = get_next_line(fd);
 // 	}
+// 	free(s);
 // 	close(fd);
 // }

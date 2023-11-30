@@ -12,6 +12,24 @@
 
 #include "get_next_line.h"
 
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i++;
+	}
+	if (c == 0)
+		return ((char *)(s + i));
+	return (NULL);
+}
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	length;
@@ -21,6 +39,7 @@ size_t	ft_strlen(const char *s)
 		length++;
 	return (length);
 }
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
@@ -34,8 +53,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_strlcpy(str, s1, s1_len + 1);
 	ft_strlcpy(str + s1_len, s2, s2_len + 1);
+	free((char *)s1);
 	return (str);
 }
+
 char	*ft_strdup(const char *s1)
 {
 	int		length;
@@ -79,43 +100,4 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	while (src[length])
 		length++;
 	return (length);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ptr;
-	size_t	total_size;
-	size_t	i;
-
-	i = 0;
-	total_size = count * size;
-	if (count != 0 && total_size / count != size)
-		return (NULL);
-	ptr = malloc(total_size);
-	if (!ptr)
-		return (NULL);
-	while (i < total_size)
-	{
-		*((char *)ptr + i) = 0;
-		i++;
-	}
-	return (ptr);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	int i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i++;
-	}
-	if (c == 0)
-		return ((char *)(s + i));
-	return (NULL);
 }
